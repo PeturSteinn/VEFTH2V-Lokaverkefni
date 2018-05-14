@@ -4,3 +4,4 @@ pymysql
 time
 configparser
 .python_mysql_dbconfig
+mysql.connector
