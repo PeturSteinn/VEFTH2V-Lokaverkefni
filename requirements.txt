@@ -3,3 +3,4 @@ requests
 pymysql
 time
 configparser
+.python_mysql_dbconfig
