@@ -1,6 +1,5 @@
 bottle
 requests
-request
 pymysql
 ConfigParser
 mysql-connector-python
