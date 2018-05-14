@@ -2,6 +2,6 @@ bottle
 requests
 pymysql
 time
-configparser
+ConfigParser
 .python_mysql_dbconfig
-mysql.connector
+mysql-connector-python
