@@ -195,7 +195,7 @@ header .navbar {
         font-family: 'Raleway', sans-serif; }
 
 .alert {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   padding: 20px;
@@ -253,9 +253,7 @@ header .navbar {
         width: 100%;
         padding: 12px 20px;
         margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px; }
+        display: inline-block; }
       .wrapper-oreder .login .contaner .fyrstidalkur {
         text-align: center;
         margin: 24px 0 12px 0;
@@ -277,23 +275,87 @@ header .navbar {
             width: 40%; }
       .wrapper-oreder .login .contaner .seinni {
         padding: 1em; }
-  .wrapper-oreder .order h1 {
-    text-align: center;
-    text-transform: uppercase; }
-  .wrapper-oreder .order input[type=submit] {
+  .wrapper-oreder .signing {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.4); }
+    .wrapper-oreder .signing .contaner {
+      max-width: 40em;
+      margin: auto;
+      background-color: grey;
+      padding: 2em; }
+      .wrapper-oreder .signing .contaner input {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block; }
+      .wrapper-oreder .signing .contaner .fyrstidalkur {
+        text-align: center;
+        margin: 24px 0 12px 0;
+        position: relative;
+        color: black; }
+        .wrapper-oreder .signing .contaner .fyrstidalkur span {
+          position: absolute;
+          right: 25px;
+          top: 0;
+          color: #000;
+          font-size: 35px;
+          font-weight: bold; }
+          .wrapper-oreder .signing .contaner .fyrstidalkur span:hover, .wrapper-oreder .signing .contaner .fyrstidalkur span:focus {
+            color: red;
+            cursor: pointer; }
+        .wrapper-oreder .signing .contaner .fyrstidalkur .mynd {
+          background-color: black;
+          border-radius: 40%; }
+          .wrapper-oreder .signing .contaner .fyrstidalkur .mynd img {
+            width: 40%; }
+      .wrapper-oreder .signing .contaner .seinni {
+        padding: 1em;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: .5em; }
+        .wrapper-oreder .signing .contaner .seinni .input:valid {
+          background-color: #eaffee;
+          border: 1px solid #47ff6c;
+          border-radius: 5px; }
+        .wrapper-oreder .signing .contaner .seinni .input:invalid {
+          background-color: #ffeaea;
+          border: 1px solid #ff8c8c;
+          border-radius: 5px; }
+  .wrapper-oreder input {
     padding: 5px 10px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
-    margin-bottom: 1em;
-    margin-top: 0; }
+    margin-bottom: 1em; }
+  .wrapper-oreder .order h1 {
+    text-align: center;
+    text-transform: uppercase; }
   .wrapper-oreder .order .dalkar {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); }
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1em; }
+    .wrapper-oreder .order .dalkar input {
+      padding: 5px 10px;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+      margin-bottom: 1em; }
     .wrapper-oreder .order .dalkar .fyrsti {
-      margin: 1em;
       margin-bottom: .5em; }
+      .wrapper-oreder .order .dalkar .fyrsti .takkar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 1em; }
       .wrapper-oreder .order .dalkar .fyrsti select {
         float: right;
         padding: 5px 10px;
@@ -318,13 +380,6 @@ header .navbar {
         margin-top: 25px; }
         .wrapper-oreder .order .dalkar .fyrsti button:hover {
           opacity: 0.8; }
-      .wrapper-oreder .order .dalkar .fyrsti input {
-        padding: 5px 10px;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        width: 100%;
-        margin-bottom: 1em; }
     .wrapper-oreder .order .dalkar .eftir {
       margin: 1em;
       margin-top: 0em;
@@ -387,5 +442,86 @@ footer {
     footer .footer p {
       text-align: center;
       color: #fefefe; }
+
+.wrapper-tabell .login {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4); }
+  .wrapper-tabell .login .contaner {
+    display: flex;
+    justify-content: center;
+    text-align: center; }
+    .wrapper-tabell .login .contaner input {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px; }
+    .wrapper-tabell .login .contaner .fyrstidalkur {
+      text-align: center;
+      margin: 24px 0 12px 0;
+      position: relative; }
+      .wrapper-tabell .login .contaner .fyrstidalkur span {
+        position: absolute;
+        right: 25px;
+        top: 0;
+        color: #000;
+        font-size: 35px;
+        font-weight: bold; }
+        .wrapper-tabell .login .contaner .fyrstidalkur span:hover, .wrapper-tabell .login .contaner .fyrstidalkur span:focus {
+          color: red;
+          cursor: pointer; }
+      .wrapper-tabell .login .contaner .fyrstidalkur .mynd {
+        background-color: black;
+        border-radius: 40%; }
+        .wrapper-tabell .login .contaner .fyrstidalkur .mynd img {
+          width: 40%; }
+    .wrapper-tabell .login .contaner .seinni {
+      padding: 1em; }
+.wrapper-tabell .takki {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2em; }
+
+.wrapper-tabel {
+  max-width: 60em;
+  margin: auto;
+  margin-top: 5em;
+  margin-bottom: 10em; }
+  .wrapper-tabel .accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s; }
+  .wrapper-tabel .active, .wrapper-tabel .accordion:hover {
+    background-color: #ccc; }
+  .wrapper-tabel .accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px; }
+  .wrapper-tabel .active:after {
+    content: "\2212"; }
+  .wrapper-tabel .panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out; }
 
 /*# sourceMappingURL=main.css.map */

@@ -98,6 +98,8 @@ class CommonPS(DbConnector):
 
     def ReservationRoomAdd(self, Param_OrderID, Param_RoomID, Param_CheckInDate, Param_CheckOutDate):
         new_id = 0
+        print("HotelConnect", Param_CheckInDate)
+        print("HotelConnect", Param_CheckOutDate)
         result = self.execute_procedure('ReservationRoomAdd', [Param_OrderID, Param_RoomID, Param_CheckInDate, Param_CheckOutDate])
         if result:
             new_id = int(result[0][0])
@@ -124,6 +126,56 @@ class CommonPS(DbConnector):
             return result
         else:
             return list()
+
+    def HotelAbout(self):
+        result = self.execute_procedure('HotelAbout')
+        if result:
+            return result
+        else:
+            return list()
+
+    def GetWorkplaces(self, Param_EmpID):
+        result = self.execute_procedure('GetWorkplaces', [Param_EmpID])
+        if result:
+            return result
+        else:
+            return list()
+
+    def CustomerOrders(self, Param_CusID):
+        result = self.execute_procedure('CustomerOrders', [Param_CusID])
+        if result:
+            return result
+        else:
+            return list()
+
+    def RoomsOnOrder(self, Param_OrderID):
+        result = self.execute_procedure('RoomsOnOrder', [Param_OrderID])
+        if result:
+            return result
+        else:
+            return list()
+
+    def ServicesOnRooms(self, Param_OrderID, Param_RoomID):
+        result = self.execute_procedure('ServicesOnRooms', [Param_OrderID, Param_RoomID])
+        if result:
+            return result
+        else:
+            return list()
+
+    def ServiceDetails(self, Param_ServiceID):
+        result = self.execute_procedure('ServiceDetails', [Param_ServiceID])
+        if result:
+            return result
+        else:
+            return list()
+
+    def ServiceItemDetails(self, Param_OrderItemID):
+        result = self.execute_procedure('ServiceItemDetails', [Param_OrderItemID])
+        if result:
+            return result
+        else:
+            return list()
+
 
 class Address(DbConnector):
     def __init__(self):

@@ -22,7 +22,7 @@
   <div class="wrapper-index-hotel">
 
   <div class="box4">
-    <form action="{{hotel['name']}}/orde">
+    <form action="/{{hotel['name']}}">
     <div class="stadir">
         <div><label>Check in:</label><input id="1" type="date" name="checkin" required></div>
         <div><label>Check out:</label><input id="2" type="date" name="ckeckout" required></div>
