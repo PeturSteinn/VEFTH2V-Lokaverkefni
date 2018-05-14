@@ -1,3 +1,6 @@
+
+# [Síðan](https://vefth2vf-verkefni-hraunhotel.herokuapp.com/)
+
 # Hraun Hótel
 
 Höfundar: *Pétur Steinn Guðmundsson, Helgi Tuan Helgason, Róbert Ingi Hálfdanarson.*
