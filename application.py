@@ -53,7 +53,6 @@ def index_hotel(hotelid):
         if x['folder']==hotelid:
             temp_hotel = x
     print('HOTELIÐ',temp_hotel)
-
     return template('views/index-hotel', hotel=temp_hotel)
 
 @route('/<hotelid>')
@@ -101,7 +100,6 @@ def orderroom():
 @route('/login', method='post')
 def login():
     customerlist = CustomerList.CustomerList()
-
     username = request.forms.get('user')
     password = request.forms.get('password')
     for x in customerlist:
@@ -117,12 +115,8 @@ def login():
     error = 'Vitlaust lykilorð eða password'
     return redirect('/Hotel/order')
 
-
-
 @route('/checkorder', method='post')
 def klaraorder():
-
-
     ssn = request.forms.get('ssn')
     hotel = request.forms.get('hotel')
     Guset = request.forms.get('Guset')
@@ -159,7 +153,6 @@ def klaraorder():
         datetime = (strftime("%Y-%m-%d %H:%M:%S", gmtime()))# fá dagsetinguna þegar það var pantað
         res_id = Reservation.ReservationAdd(1,user_ID, datetime)# 1= Id hjá strafsmanni sem er vefsíðan
 
-        lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 3))
         if len(lausherbergi) < Guset:
             error = "Það eru ekki nó og mörg laus Guest herbergi"
             redirect('/Hotel/order')
@@ -206,7 +199,6 @@ def klaraorder():
 @route('/bokun' , method='post')
 def bokun():
     customerlist = CustomerList.CustomerList()
-
     username = request.forms.get('user')
     password = request.forms.get('password')
     for x in customerlist:
@@ -277,7 +269,6 @@ def bokun():
 @route('/signup' , method='post')
 def signup():
     customerlist = CustomerList.CustomerList()
-
     username = request.forms.get('user')
     password = request.forms.get('password')
     for x in customerlist:
