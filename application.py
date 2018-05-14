@@ -1,5 +1,4 @@
 from bottle import *
-from beaker.middleware import SessionMiddleware
 from Database.HotelConnect import *
 from time import gmtime, strftime
 
