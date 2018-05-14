@@ -303,11 +303,4 @@ def signup():
 def server_static(filename):
     return static_file(filename, root='./resources')
 
-session_options = {
-    'session.type': 'file',
-    'session.data_dir':'./data'
-}
-
-my_session = SessionMiddleware(app(), session_options)
-
 run(host="0.0.0.0", port=os.environ.get('PORT'))
