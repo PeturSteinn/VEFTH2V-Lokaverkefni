@@ -39,10 +39,3 @@ Vefsíða Hraun Hótels er fyrst og fremst hönnuð fyrir viðskiptavini bóka h
 Viðskiptavinur verður að eiga reikning til að panta herbergi.
 Hægt er að nýskrá sig á vefsíðunni.
 
-#### Síðan er skipt í sex síður
-* index.tpl
-** Forsíðan.
-* index-hotel.tpl
-** forsíða hjá hoteli.
-** síðan tekur data frá gagnagrunni.
-** þú velur dagsetningu og herbergitegund sem þú vilt fá.
