@@ -200,6 +200,18 @@ DELIMITER ;
 
 /*CALL `ServiceAddItem`(); */
 
+-- List hotels and their address
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS `HotelAbout` //
+CREATE PROCEDURE `HotelAbout` ()
+BEGIN
+	SELECT * FROM `Hotel`
+    INNER JOIN `Address` ON `Hotel`.AddressID = `Address`.AddressID;
+END //
+DELIMITER ;
+
+
 
 -- Standard procedures
 

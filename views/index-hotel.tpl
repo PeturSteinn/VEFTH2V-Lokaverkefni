@@ -14,15 +14,15 @@
   <header>
     <div class="navbar">
       <div class="box"><img src="/static/img/mynd.png" style="width: 82px;"></div>
-      <div class="box2"><ul><li><a href="/bokun">Sjá bókun</a></li><li><a href="/starfsmenn">Starfsfólk</a></li><li><a href="#umokkuer">Um okkur</a></li><li><a href="/Hotel/Akureyri">Akureyri</a></li><li><a href="/Hotel/Selfoss">Selfoss</a></li><li><a href="/Hotel/Reykavik">Reykavík</a></li></ul></div>
-      <div class="box3"><h1>Velkominn á síðuna hjá Hraun Hótel</h1><p class="text">Við erum með 3 hótel sem eru staðsett á Íslandi. 70 herbergja í Reykjavík, 45 herbergja á Akureyri, 35 herbergja á Selfossi.</p><p class="text2">Það er hægt að pnata ferðir á Hótelunum, boði eru reyðtúrar, jökklaferðir, hvalaleiðangrar, fjöllgöngur og mikklu fleira.</p></div>
+      <div class="box2"><ul><li><a href="/bokunn">Sjá bókun</a></li><li><a href="/starfsmenn">Starfsfólk</a></li><li><a href="#umokkuer">Um okkur</a></li><li><a href="/Hotel/akureyri">Akureyri</a></li><li><a href="/Hotel/selfoss">Selfoss</a></li><li><a href="/Hotel/reykjavik">Reykavík</a></li><li><a href="/">Forsíða</a></li></li></ul></div>
+      <div class="box3"><h1>{{hotel['name']}}</h1><p class="text">Við erum með 3 hótel sem eru staðsett á Íslandi. 70 herbergja í Reykjavík, 45 herbergja á Akureyri, 35 herbergja á Selfossi.</p><p class="text2">Það er hægt að pnata ferðir á Hótelunum, boði eru reyðtúrar, jökklaferðir, hvalaleiðangrar, fjöllgöngur og mikklu fleira.</p></div>
     </div>
     <img src="/static/img/{{hotel['folder']}}/{{hotel['border']}}">
   </header>
   <div class="wrapper-index-hotel">
 
   <div class="box4">
-    <form action="/{{hotel['name']}}">
+    <form action="/{{hotel['folder']}}">
     <div class="stadir">
         <div><label>Check in:</label><input id="1" type="date" name="checkin" required></div>
         <div><label>Check out:</label><input id="2" type="date" name="ckeckout" required></div>
@@ -46,8 +46,8 @@
       <div class="myndbox">
         <div class="popup">
           <div class="imgs">
-            <img class="slides" src="/static/img/HotelRK/bannerRK.jpg">
-            <img class="slides" src="/static/img/HotelAK/bannerAK.jpg">
+            <img class="slides" src="/static/img/reykjavik/reykjavik.jpg">
+            <img class="slides" src="/static/img/akureyri/akureyri.jpg">
             <button class="btn" onclick="plusIndex(-1)">&#10094;</button>
             <button class="btn2" onclick="plusIndex(-1)"">&#10095;</button>
           </div>

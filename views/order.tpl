@@ -13,7 +13,7 @@
 	<header>
      <div class="navbar">
       <div class="box"><img src="/static/img/mynd.png" style="width: 82px;"></div>
-      <div class="box2"><ul><li><a href="/bokun">Sjá bókun</a></li><li><a href="/starfsmenn">Starfsfólk</a></li><li><a href="#umokkuer">Um okkur</a></li><li><a href="/Hotel/Akureyri">Akureyri</a></li><li><a href="/Hotel/Selfoss">Selfoss</a></li><li><a href="/Hotel/Reykavik">Reykavík</a></li></ul></div>
+      <div class="box2"><ul><li><a href="/bokunn">Sjá bókun</a></li><li><a href="/starfsmenn">Starfsfólk</a></li><li><a href="#umokkuer">Um okkur</a></li><li><a href="/Hotel/akureyri">Akureyri</a></li><li><a href="/Hotel/selfoss">Selfoss</a></li><li><a href="/Hotel/reykjavik">Reykavík</a></li><li><a href="/">Forsíða</a></li></ul></div>
     </div>
       
   </header>

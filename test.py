@@ -2,21 +2,21 @@ from bottle import *
 from beaker.middleware import SessionMiddleware
 from Database.HotelConnect import *
 from time import gmtime, strftime
-
-CustomerList = Customer()
+Customer = Customer()
 CommonPS = CommonPS()
-Reservation= Reservation()
-Room= Room()
-order_Room= Order_Has_Rooms()
-
+Reservation=Reservation()
+Room=Room()
+order_Room=Order_Has_Rooms()
 
 order_went_through = False
 error = ''
 
-
+Common = CommonPS()
+Customer = Customer()
+Address = Address()
 
 # Upsetning á hótelum
-result = CommonPS.HotelAbout()
+result = Common.HotelAbout()
 hotels = list()
 for i in result:
     item = dict()
@@ -25,7 +25,8 @@ for i in result:
     item['folder'] = i[5].lower()
     item['border'] = str(i[5].lower() + '.jpg')
     hotels.append(item)
-
+for i in hotels:
+    print(i)
 
 cookei = ['account', 'fname', 'lname', 'SSN', 'phone', 'mail', 'checkin', 'checkout', 'herbegi','Hotel']
 
@@ -44,22 +45,20 @@ def index():
 
 @route('/Hotel/<hotelid>')
 def index_hotel(hotelid):
-    temp_hotel = ''
     for x in cookei:
         response.set_cookie('{}'.format(x), "", expires=0)
     response.set_cookie('account', "", expires=0)
     for x in hotels:
         print(x)
-        print('{}---{}'.format(x['folder'],hotelid))
-        if x['folder']==hotelid:
+        print('{}---{}'.format(x['name'],hotelid))
+        if x['name']==hotelid:
             temp_hotel = x
-    print('HOTELIÐ',temp_hotel)
 
     return template('views/index-hotel', hotel=temp_hotel)
 
 @route('/<hotelid>')
 def order(hotelid):
-    if hotelid == 'reykjavik' or hotelid == 'selfoss' or hotelid == 'akureyri':
+    if hotelid == 'Reykavik' or hotelid == 'Selfoss' or hotelid == 'Akureyri':
         checkin = request.query.checkin
         checkout = request.query.ckeckout
         herbegi = request.query.Herbergi
@@ -101,7 +100,7 @@ def orderroom():
 
 @route('/login', method='post')
 def login():
-    customerlist = CustomerList.CustomerList()
+    customerlist = Customer.CustomerList()
 
     username = request.forms.get('user')
     password = request.forms.get('password')
@@ -148,7 +147,7 @@ def klaraorder():
         print(checkin)
         global error
         # New_Start, New_End, Param_HotelID, Param_TypeID):
-        all_cust =CustomerList.CustomerList()
+        all_cust =Customer.CustomerList()
         for x in all_cust:#hérna er fundið user idið
             if ssn == x[1]:
                 user_ID = x[0]
@@ -202,11 +201,12 @@ def klaraorder():
         response.set_cookie('{}'.format(x), "", expires=0)
     global order_went_through
     order_went_through = True
+    print(res_id)
     return redirect('/')
 
 @route('/bokun' , method='post')
 def bokun():
-    customerlist = CustomerList.CustomerList()
+    customerlist = Customer.CustomerList()
 
     username = request.forms.get('user')
     password = request.forms.get('password')
@@ -214,70 +214,49 @@ def bokun():
         if username == x[7] and password == x[8]:
             response.set_cookie('account', x[7], secret='my_secret_code')
             response.set_cookie('accountID', x[0], secret='my_secret_code')
-            return redirect('/bokun')
     else:
         global error
         error = 'vilaust notandanafn eða lykilorð'
-        return redirect('/bokunn')
-
-@route('/bokunn')
-def bokunlogin():
-    global error
-    villa = error
-    error = ''
-    orders = []
-
-    return template('login', villa=villa)
+        return redirect('/bokun')
 
 
 @route('/bokun')
 def bokun():
     accountID = request.get_cookie('accountID', secret='my_secret_code')
     account = request.get_cookie('account', secret='my_secret_code')
-    response.set_cookie('account', '', expires=0)
-    response.set_cookie('accountID', '', expires=0)
     global error
     villa = error
     error = ''
-    orders = []
-
     teljari = 0
-
     if (account):
         kust_orders = CommonPS.CustomerOrders(accountID)
-        print('vff',kust_orders)
+        orders=[]
         for y in kust_orders:
             order = {}
-            flokkur = CommonPS.TotalRoomBill(y[0])  # mundi skýra order en það er tekið
+            flokkur = CommonPS.TotalRoomBill(y[teljari])  # mundi skýra order en það er tekið
             orderprice = 0
             order['hotel'] = flokkur[0][7]
-            order['herbergi'] = []
             for x in flokkur:
-                herbergi = {}
                 order['checkin'] = x[0]
                 order['checkout'] = x[1]
+                order['herbergi'] = []
+                herbergi = {}
                 herbergi['type'] = x[2]
                 herbergi['nuber'] = x[3]
                 herbergi['price'] = x[4]
                 herbergi['days'] = x[5]
                 herbergi['totalprice'] = x[6]
-                print(herbergi)
                 order['herbergi'].append(herbergi)
                 orderprice += int(x[6])
             order['orderprice'] = orderprice
-            print(order)
             orders.append(order)
-
-
-        return template('tabel', villa=villa, user= account, orders=orders)
-    else:
-        error='hefur ekki réttindi að fara á þessa síðu'
-        return redirect('bokunn')
+    print(orders)
+    return template('tabel', villa=villa, user= account, orders=orders)
 
 
 @route('/signup' , method='post')
 def signup():
-    customerlist = CustomerList.CustomerList()
+    customerlist = Customer.CustomerList()
 
     username = request.forms.get('user')
     password = request.forms.get('password')
@@ -285,7 +264,7 @@ def signup():
         if username == x[7]:
             global error
             error = 'Notandanafn tekið'
-            return redirect('/Hotel/order')
+            return redirect('/hotel/order')
     user = request.forms.get('user')
     password = request.forms.get('password')
     fname = request.forms.get('fname')

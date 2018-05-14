@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -14,35 +14,26 @@
   <header>
     <div class="navbar">
       <div class="box"><img src="/static/img/mynd.png" style="width: 82px;"></div>
-      <div class="box2"><ul><li><a href="/bokunn">Sjá bókun</a></li><li><a href="/starfsmenn">Starfsfólk</a></li><li><a href="#umokkuer">Um okkur</a></li><li><a href="/Hotel/akureyri">Akureyri</a></li><li><a href="/Hotel/selfoss">Selfoss</a></li><li><a href="/Hotel/reykjavik">Reykavík</a></li><li><a href="/">Forsíða</a></li></ul></div>
+      <div class="box2"><ul><li></form><a href="/bokunn">Sjá bókun</a></li><li><a href="/starfsmenn">Starfsfólk</a></li><li><a href="#umokkuer">Um okkur</a></li><li><a href="/Hotel/akureyri">Akureyri</a></li><li><a href="/Hotel/selfoss">Selfoss</a></li><li><a href="/Hotel/reykjavik">Reykavík</a></li><li><a href="/">Forsíða</a></li></ul></div>
       <div class="box3"><h1>Velkominn á síðuna hjá Hraun Hótel</h1><p class="text">Við erum með 3 hótel sem eru staðsett á Íslandi. 70 herbergja í Reykjavík, 45 herbergja á Akureyri, 35 herbergja á Selfossi.</p><p class="text2">Það er hægt að pnata ferðir á Hótelunum, boði eru reyðtúrar, jökklaferðir, hvalaleiðangrar, fjöllgöngur og mikklu fleira.</p></div>
     </div>
-    <img src="/static/img/akureyri/akureyri.jpg">
+  <img src="/static/img/akureyri/akureyri.jpg">
   </header>
-  <div class="wrapper-index">
-
-  <div class="box4">
-    <div class="stadir">
-      <div><a href="/Hotel/reykjavik">Reykjavík</a></div>
-      <div><a href="/Hotel/akureyri">Akureyri</a></div>
-      <div><a href="/Hotel/selfoss">Selfoss</a></div>
-    </div>
-  </div>
-
-  <div class="wrapper-index">
-    <div class="umokkur">
-      <div class="myndbox">
-        <img src="/static/img/mynd.png">
+  % if (villa):
+      <div class="alert">
+        <span class="closebtn">&times;</span>  
+        <strong>Villa!&nbsp;</strong>{{villa}}
       </div>
-      <div class="text">
-        <h1>Um okkur</h1>
-        <p>Við opnuðum fyrsta hótleið okkar 2000 í reykjavík, þá vorum við ekki nema með 20 herbergi. Herbergi voru þá bara með eitt rúm og klósetti. 2004 fórum við í nýju bygginguna okkar í reykjavík þar sem við erum núna staðsett. 2006 opnuðum við annað hótel á Akureyri með 10 herbergum, planið var að gá hvernig mundi fara að hafa hótel á Akureyri. 2010 lokuðum við hótelinu í Reykavík út af viðhalningu og oppnuðum að áftur ári eftir þá með 70 herbergum og meira þægindum. Opnuðum nýtt hótel á Selfossi með 35 herbergum árið 2015. Árið 2017 fluttum við hótelið á Akureyri í nýja byggingu sem var byrjuð í framkvæmdum árið 2015. Hótelið er með 45 herbergum og er flottasta hótelið okkar núna</p>      
-      </div>  
-    </div>
-
+  % end
+  <div class="login">
+  <div class="wrapper-oreder">
+    <form action="/bokun" method="post">
+      <input type="text" placeholder="Notandanafn:" name="user" required>
+      <input type="password" placeholder="Lykilorð:" name="password" required>
+      <input type="submit" name="submit" value="Skrá sig inn">
+    </form>
+  </div>
 </div>
-</div>
-
 <footer>
   <div class="wrapper">
     <div class="box"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -57,12 +48,22 @@
   </div>
   <div class="footer"><p>Róbert Ingi - Pétur Steinn - Helgi Tuan</p></div>
 </footer>
-  
-
-
-
- 
-
-
-  
 </body>
+</html>
+
+<script>
+  var close = document.getElementsByClassName("closebtn");
+var i;
+
+for (i = 0; i < close.length; i++) {
+    close[i].onclick = function(){
+
+        var div = this.parentElement;
+
+        div.style.opacity = "0";
+
+
+        setTimeout(function(){ div.style.display = "none"; }, 600);
+    }
+}
+</script>
