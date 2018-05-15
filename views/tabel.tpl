@@ -56,6 +56,7 @@
               <td>{{y['days']}}</td>
               <td>{{y['totalprice']}}</td>
               </tr>
+              % teljari += 1
             % end
           </tbody>
           </table>
