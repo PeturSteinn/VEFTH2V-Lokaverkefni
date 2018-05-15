@@ -249,13 +249,13 @@ def bokun():
                 order['checkout'] = x[1]
                 herbergi['type'] = x[2]
                 herbergi['nuber'] = x[3]
-                herbergi['price'] = x[4]
-                herbergi['days'] = x[5]
-                herbergi['totalprice'] = x[6]
+                herbergi['price'] = '{:,}-kr'.format(x[4])
+                herbergi['days'] = '{:,}-kr'.format(x[5])
+                herbergi['totalprice'] = '{:,}-kr'.format(x[6])
                 print(herbergi)
                 order['herbergi'].append(herbergi)
                 orderprice += int(x[6])
-            order['orderprice'] = orderprice
+            order['orderprice'] = '{:,}-kr'.format(orderprice)
             print(order)
             orders.append(order)
 
