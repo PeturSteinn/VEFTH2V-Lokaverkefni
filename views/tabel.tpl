@@ -31,7 +31,7 @@
           <th>Herbergisnúmer</th>
           <th>Herbergistegund</th>
           <th>Verðnótt</th>
-          <th>Lengdgistingar</th>
+          <th>Lengd gistingar</th>
           <th>Heldaverð herbergis</th>
           </tr>
           </thead>
