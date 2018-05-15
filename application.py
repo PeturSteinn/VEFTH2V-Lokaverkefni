@@ -250,7 +250,7 @@ def bokun():
                 herbergi['type'] = x[2]
                 herbergi['nuber'] = x[3]
                 herbergi['price'] = '{:,}-kr'.format(x[4])
-                herbergi['days'] = '{:,}-kr'.format(x[5])
+                herbergi['days'] = x[5]
                 herbergi['totalprice'] = '{:,}-kr'.format(x[6])
                 print(herbergi)
                 order['herbergi'].append(herbergi)
