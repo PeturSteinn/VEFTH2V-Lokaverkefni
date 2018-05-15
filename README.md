@@ -1,6 +1,6 @@
 
 # [Síðan](https://vefth2vf-verkefni-hraunhotel.herokuapp.com/)
-### Síðan er gerð í fartölvu og lýtur kanski er hún ekki jafn flott á stærri eða minniskjáum!!.
+### Síðan er gerð í fartölvu og lýtur ekki jafn vel út á stærri eða minniskjáum!!.
 
 # Hraun Hótel
 
