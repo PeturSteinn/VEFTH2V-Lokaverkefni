@@ -297,12 +297,6 @@ def signup():
     return redirect('/Hotel/order')
 
 
-@error(404)
-def error404(error):
-    return '<h1>Þessi siða er ekki til</h1>' \
-            '<a href="../">Til baka</a>'
-
-
 
 @route('/static/<filename:path>')
 def server_static(filename):
