@@ -294,8 +294,6 @@ def signup():
     else:
         CommonPS.RegisterCustomer(Zip, CityName, CountryName, StreetName, BuildingNum, ssn, lname, fname, mail, phone,
                                   user, password)
-
-
     return redirect('/Hotel/order')
 
 
