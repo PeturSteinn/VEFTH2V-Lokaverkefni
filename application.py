@@ -152,7 +152,7 @@ def klaraorder():
         # búa til pöntun
         datetime = (strftime("%Y-%m-%d %H:%M:%S", gmtime()))# fá dagsetinguna þegar það var pantað
         res_id = Reservation.ReservationAdd(1,user_ID, datetime)# 1= Id hjá strafsmanni sem er vefsíðan
-
+        lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 3))
         if len(lausherbergi) < Guset:
             error = "Það eru ekki nó og mörg laus Guest herbergi"
             redirect('/Hotel/order')
