@@ -1,6 +1,8 @@
 
 # [Síðan](https://vefth2vf-verkefni-hraunhotel.herokuapp.com/)
 ### Síðan er gerð í fartölvu og lýtur ekki jafn vel út á stærri eða minniskjáum!!.
+Þú getur notað þennan account hérna fyrir neðann.
+Account= Larus password= Larus2000
 
 # Hraun Hótel
 
