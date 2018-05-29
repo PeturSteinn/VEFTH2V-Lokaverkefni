@@ -3,10 +3,9 @@ from Database.HotelConnect import *
 from time import gmtime, strftime
 
 CustomerList = Customer()
-CommonPS = CommonPS()
-Reservation= Reservation()
-Room= Room()
-order_Room= Order_Has_Rooms()
+com = CommonPS()
+res = Reservation()
+order_Room = Order_Has_Rooms()
 
 
 order_went_through = False
@@ -15,7 +14,7 @@ error = ''
 
 
 # Upsetning á hótelum
-result = CommonPS.HotelAbout()
+result = com.HotelAbout()
 hotels = list()
 for i in result:
     item = dict()
@@ -99,6 +98,7 @@ def orderroom():
 
 @route('/login', method='post')
 def login():
+    CustomerList = Customer()   # NYTT
     customerlist = CustomerList.CustomerList()
     username = request.forms.get('user')
     password = request.forms.get('password')
@@ -117,6 +117,10 @@ def login():
 
 @route('/checkorder', method='post')
 def klaraorder():
+    CustomerList = Customer()   # NYTT
+    com = CommonPS()       # NYTT
+    res = Reservation() # NYTT
+    order_Room = Order_Has_Rooms()  # NYTT
     ssn = request.forms.get('ssn')
     hotel = request.forms.get('hotel')
     Guset = request.forms.get('Guset')
@@ -151,18 +155,18 @@ def klaraorder():
 
         # búa til pöntun
         datetime = (strftime("%Y-%m-%d %H:%M:%S", gmtime()))# fá dagsetinguna þegar það var pantað
-        res_id = Reservation.ReservationAdd(1,user_ID, datetime)# 1= Id hjá strafsmanni sem er vefsíðan
-        lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 3))
+        res_id = res.ReservationAdd(1,user_ID, datetime)# 1= Id hjá strafsmanni sem er vefsíðan
+        lausherbergi = (com.CheckAvailability(checkin, checkout, hotel, 3))
         if len(lausherbergi) < Guset:
             error = "Það eru ekki nó og mörg laus Guest herbergi"
             redirect('/Hotel/order')
 
-        lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 2))
+        lausherbergi = (com.CheckAvailability(checkin, checkout, hotel, 2))
         if len(lausherbergi) < Suites:
             error = "Það eru ekki nó og mörg laus Suites herbergi"
             redirect('/Hotel/order')
 
-        lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 1))
+        lausherbergi = (com.CheckAvailability(checkin, checkout, hotel, 1))
         if len(lausherbergi) < Executive:
             error = "Það eru ekki nó og mörg laus Executive herbergi"
             redirect('/Hotel/order')
@@ -171,19 +175,19 @@ def klaraorder():
         if Guset > 0:
             #(self, Param_OrderID, Param_RoomID, Param_CheckInDate, Param_CheckOutDate):
             for x in range(Guset):
-                lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 3))
+                lausherbergi = (com.CheckAvailability(checkin, checkout, hotel, 3))
                 order_Room.ReservationRoomAdd(res_id,lausherbergi[x][0], checkin, checkout) # lausherbergi[x][0] er id af lauasa herberginu.
         else:
             pass
         if Suites > 0:
             for x in range(Suites):
-                lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 2))
+                lausherbergi = (com.CheckAvailability(checkin, checkout, hotel, 2))
                 order_Room.ReservationRoomAdd(res_id,lausherbergi[x][0], checkin, checkout)# lausherbergi[x][0] er id af lauasa herberginu.
         else:
             pass
         if Executive > 0:
             for x in range(Executive):
-                lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 1))
+                lausherbergi = (com.CheckAvailability(checkin, checkout, hotel, 1))
                 order_Room.ReservationRoomAdd(res_id,lausherbergi[x][0], checkin, checkout) # lausherbergi[x][0] er id af lauasa herberginu.
         else:
             pass
@@ -198,6 +202,7 @@ def klaraorder():
 
 @route('/bokun' , method='post')
 def bokun():
+    CustomerList = Customer()   # NYTT
     customerlist = CustomerList.CustomerList()
     username = request.forms.get('user')
     password = request.forms.get('password')
@@ -223,6 +228,7 @@ def bokunlogin():
 
 @route('/bokun')
 def bokun():
+    com = CommonPS()       # NYTT
     accountID = request.get_cookie('accountID', secret='my_secret_code')
     account = request.get_cookie('account', secret='my_secret_code')
     response.set_cookie('account', '', expires=0)
@@ -235,11 +241,11 @@ def bokun():
     teljari = 0
 
     if (account):
-        kust_orders = CommonPS.CustomerOrders(accountID)
+        kust_orders = com.CustomerOrders(accountID)
         print('vff',kust_orders)
         for y in kust_orders:
             order = {}
-            flokkur = CommonPS.TotalRoomBill(y[0])  # mundi skýra order en það er tekið
+            flokkur = com.TotalRoomBill(y[0])  # mundi skýra order en það er tekið
             orderprice = 0
             order['hotel'] = flokkur[0][7]
             order['herbergi'] = []
@@ -268,6 +274,8 @@ def bokun():
 
 @route('/signup' , method='post')
 def signup():
+    CustomerList = Customer()   # NYTT
+    com = CommonPS()       # NYTT
     customerlist = CustomerList.CustomerList()
     username = request.forms.get('user')
     password = request.forms.get('password')
@@ -290,9 +298,9 @@ def signup():
     BuildingNum = request.forms.get('BuildingNum')
     ApartNum = request.forms.get('ApartNum')
     if ApartNum == None:
-        CommonPS.RegisterCustomer(Zip,CityName,CountryName,StreetName,BuildingNum,ssn,lname,fname,mail,phone,user,password,ApartNum)
+        com.RegisterCustomer(Zip,CityName,CountryName,StreetName,BuildingNum,ssn,lname,fname,mail,phone,user,password,ApartNum)
     else:
-        CommonPS.RegisterCustomer(Zip, CityName, CountryName, StreetName, BuildingNum, ssn, lname, fname, mail, phone,
+        com.RegisterCustomer(Zip, CityName, CountryName, StreetName, BuildingNum, ssn, lname, fname, mail, phone,
                                   user, password)
     return redirect('/Hotel/order')
 

@@ -1,22 +1,20 @@
 from bottle import *
-from beaker.middleware import SessionMiddleware
 from Database.HotelConnect import *
 from time import gmtime, strftime
-Customer = Customer()
-CommonPS = CommonPS()
-Reservation=Reservation()
-Room=Room()
-order_Room=Order_Has_Rooms()
+
+CustomerList = Customer()
+com = CommonPS()
+res = Reservation()
+order_Room = Order_Has_Rooms()
+
 
 order_went_through = False
 error = ''
 
-Common = CommonPS()
-Customer = Customer()
-Address = Address()
+
 
 # Upsetning á hótelum
-result = Common.HotelAbout()
+result = com.HotelAbout()
 hotels = list()
 for i in result:
     item = dict()
@@ -25,8 +23,7 @@ for i in result:
     item['folder'] = i[5].lower()
     item['border'] = str(i[5].lower() + '.jpg')
     hotels.append(item)
-for i in hotels:
-    print(i)
+
 
 cookei = ['account', 'fname', 'lname', 'SSN', 'phone', 'mail', 'checkin', 'checkout', 'herbegi','Hotel']
 
@@ -45,20 +42,21 @@ def index():
 
 @route('/Hotel/<hotelid>')
 def index_hotel(hotelid):
+    temp_hotel = ''
     for x in cookei:
         response.set_cookie('{}'.format(x), "", expires=0)
     response.set_cookie('account', "", expires=0)
     for x in hotels:
         print(x)
-        print('{}---{}'.format(x['name'],hotelid))
-        if x['name']==hotelid:
+        print('{}---{}'.format(x['folder'],hotelid))
+        if x['folder']==hotelid:
             temp_hotel = x
-
+    print('HOTELIÐ',temp_hotel)
     return template('views/index-hotel', hotel=temp_hotel)
 
 @route('/<hotelid>')
 def order(hotelid):
-    if hotelid == 'Reykavik' or hotelid == 'Selfoss' or hotelid == 'Akureyri':
+    if hotelid == 'reykjavik' or hotelid == 'selfoss' or hotelid == 'akureyri':
         checkin = request.query.checkin
         checkout = request.query.ckeckout
         herbegi = request.query.Herbergi
@@ -100,8 +98,8 @@ def orderroom():
 
 @route('/login', method='post')
 def login():
-    customerlist = Customer.CustomerList()
-
+    CustomerList = Customer()   # NYTT
+    customerlist = CustomerList.CustomerList()
     username = request.forms.get('user')
     password = request.forms.get('password')
     for x in customerlist:
@@ -117,12 +115,12 @@ def login():
     error = 'Vitlaust lykilorð eða password'
     return redirect('/Hotel/order')
 
-
-
 @route('/checkorder', method='post')
 def klaraorder():
-
-
+    CustomerList = Customer()   # NYTT
+    com = CommonPS()       # NYTT
+    res = Reservation() # NYTT
+    order_Room = Order_Has_Rooms()  # NYTT
     ssn = request.forms.get('ssn')
     hotel = request.forms.get('hotel')
     Guset = request.forms.get('Guset')
@@ -147,7 +145,7 @@ def klaraorder():
         print(checkin)
         global error
         # New_Start, New_End, Param_HotelID, Param_TypeID):
-        all_cust =Customer.CustomerList()
+        all_cust =CustomerList.CustomerList()
         for x in all_cust:#hérna er fundið user idið
             if ssn == x[1]:
                 user_ID = x[0]
@@ -157,19 +155,18 @@ def klaraorder():
 
         # búa til pöntun
         datetime = (strftime("%Y-%m-%d %H:%M:%S", gmtime()))# fá dagsetinguna þegar það var pantað
-        res_id = Reservation.ReservationAdd(1,user_ID, datetime)# 1= Id hjá strafsmanni sem er vefsíðan
-
-        lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 3))
+        res_id = res.ReservationAdd(1,user_ID, datetime)# 1= Id hjá strafsmanni sem er vefsíðan
+        lausherbergi = (com.CheckAvailability(checkin, checkout, hotel, 3))
         if len(lausherbergi) < Guset:
             error = "Það eru ekki nó og mörg laus Guest herbergi"
             redirect('/Hotel/order')
 
-        lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 2))
+        lausherbergi = (com.CheckAvailability(checkin, checkout, hotel, 2))
         if len(lausherbergi) < Suites:
             error = "Það eru ekki nó og mörg laus Suites herbergi"
             redirect('/Hotel/order')
 
-        lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 1))
+        lausherbergi = (com.CheckAvailability(checkin, checkout, hotel, 1))
         if len(lausherbergi) < Executive:
             error = "Það eru ekki nó og mörg laus Executive herbergi"
             redirect('/Hotel/order')
@@ -178,19 +175,19 @@ def klaraorder():
         if Guset > 0:
             #(self, Param_OrderID, Param_RoomID, Param_CheckInDate, Param_CheckOutDate):
             for x in range(Guset):
-                lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 3))
+                lausherbergi = (com.CheckAvailability(checkin, checkout, hotel, 3))
                 order_Room.ReservationRoomAdd(res_id,lausherbergi[x][0], checkin, checkout) # lausherbergi[x][0] er id af lauasa herberginu.
         else:
             pass
         if Suites > 0:
             for x in range(Suites):
-                lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 2))
+                lausherbergi = (com.CheckAvailability(checkin, checkout, hotel, 2))
                 order_Room.ReservationRoomAdd(res_id,lausherbergi[x][0], checkin, checkout)# lausherbergi[x][0] er id af lauasa herberginu.
         else:
             pass
         if Executive > 0:
             for x in range(Executive):
-                lausherbergi = (CommonPS.CheckAvailability(checkin, checkout, hotel, 1))
+                lausherbergi = (com.CheckAvailability(checkin, checkout, hotel, 1))
                 order_Room.ReservationRoomAdd(res_id,lausherbergi[x][0], checkin, checkout) # lausherbergi[x][0] er id af lauasa herberginu.
         else:
             pass
@@ -201,70 +198,92 @@ def klaraorder():
         response.set_cookie('{}'.format(x), "", expires=0)
     global order_went_through
     order_went_through = True
-    print(res_id)
     return redirect('/')
 
 @route('/bokun' , method='post')
 def bokun():
-    customerlist = Customer.CustomerList()
-
+    CustomerList = Customer()   # NYTT
+    customerlist = CustomerList.CustomerList()
     username = request.forms.get('user')
     password = request.forms.get('password')
     for x in customerlist:
         if username == x[7] and password == x[8]:
             response.set_cookie('account', x[7], secret='my_secret_code')
             response.set_cookie('accountID', x[0], secret='my_secret_code')
+            return redirect('/bokun')
     else:
         global error
         error = 'vilaust notandanafn eða lykilorð'
-        return redirect('/bokun')
+        return redirect('/bokunn')
+
+@route('/bokunn')
+def bokunlogin():
+    global error
+    villa = error
+    error = ''
+    orders = []
+
+    return template('login', villa=villa)
 
 
 @route('/bokun')
 def bokun():
+    com = CommonPS()       # NYTT
     accountID = request.get_cookie('accountID', secret='my_secret_code')
     account = request.get_cookie('account', secret='my_secret_code')
+    response.set_cookie('account', '', expires=0)
+    response.set_cookie('accountID', '', expires=0)
     global error
     villa = error
     error = ''
+    orders = []
+
     teljari = 0
+
     if (account):
-        kust_orders = CommonPS.CustomerOrders(accountID)
-        orders=[]
+        kust_orders = com.CustomerOrders(accountID)
+        print('vff',kust_orders)
         for y in kust_orders:
             order = {}
-            flokkur = CommonPS.TotalRoomBill(y[teljari])  # mundi skýra order en það er tekið
+            flokkur = com.TotalRoomBill(y[0])  # mundi skýra order en það er tekið
             orderprice = 0
             order['hotel'] = flokkur[0][7]
+            order['herbergi'] = []
             for x in flokkur:
+                herbergi = {}
                 order['checkin'] = x[0]
                 order['checkout'] = x[1]
-                order['herbergi'] = []
-                herbergi = {}
                 herbergi['type'] = x[2]
                 herbergi['nuber'] = x[3]
-                herbergi['price'] = x[4]
+                herbergi['price'] = '{:,}-kr'.format(x[4])
                 herbergi['days'] = x[5]
-                herbergi['totalprice'] = x[6]
+                herbergi['totalprice'] = '{:,}-kr'.format(x[6])
+                print(herbergi)
                 order['herbergi'].append(herbergi)
                 orderprice += int(x[6])
-            order['orderprice'] = orderprice
+            order['orderprice'] = '{:,}-kr'.format(orderprice)
+            print(order)
             orders.append(order)
-    print(orders)
-    return template('tabel', villa=villa, user= account, orders=orders)
+
+
+        return template('tabel', villa=villa, user= account, orders=orders)
+    else:
+        error='hefur ekki réttindi að fara á þessa síðu'
+        return redirect('bokunn')
 
 
 @route('/signup' , method='post')
 def signup():
-    customerlist = Customer.CustomerList()
-
+    CustomerList = Customer()   # NYTT
+    com = CommonPS()       # NYTT
+    customerlist = CustomerList.CustomerList()
     username = request.forms.get('user')
     password = request.forms.get('password')
     for x in customerlist:
         if username == x[7]:
             global error
             error = 'Notandanafn tekið'
-            return redirect('/hotel/order')
+            return redirect('/Hotel/order')
     user = request.forms.get('user')
     password = request.forms.get('password')
     fname = request.forms.get('fname')
@@ -279,24 +298,17 @@ def signup():
     BuildingNum = request.forms.get('BuildingNum')
     ApartNum = request.forms.get('ApartNum')
     if ApartNum == None:
-        CommonPS.RegisterCustomer(Zip,CityName,CountryName,StreetName,BuildingNum,ssn,lname,fname,mail,phone,user,password,ApartNum)
+        com.RegisterCustomer(Zip,CityName,CountryName,StreetName,BuildingNum,ssn,lname,fname,mail,phone,user,password,ApartNum)
     else:
-        CommonPS.RegisterCustomer(Zip, CityName, CountryName, StreetName, BuildingNum, ssn, lname, fname, mail, phone,
+        com.RegisterCustomer(Zip, CityName, CountryName, StreetName, BuildingNum, ssn, lname, fname, mail, phone,
                                   user, password)
-
-
     return redirect('/Hotel/order')
+
 
 
 @route('/static/<filename:path>')
 def server_static(filename):
     return static_file(filename, root='./resources')
 
-session_options = {
-    'session.type': 'file',
-    'session.data_dir':'./data'
-}
-
-my_session = SessionMiddleware(app(), session_options)
-
-run(host='localhost', port='8080', debug='True', reloader='True')
+#run(host="0.0.0.0", port=os.environ.get('PORT'))
+run(reloader=True, debug=True)
